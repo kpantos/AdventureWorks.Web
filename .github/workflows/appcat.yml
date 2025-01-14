@@ -1,0 +1,18 @@
+on:
+  workflow_dispatch:
+  push:
+  
+jobs:
+  test_appcat_action:
+    runs-on: windows-latest
+    name: A job to test the appcat action
+    steps:
+      - uses: actions/checkout@v4
+      - id: foo
+        uses: kpantos/dotnet-appcat-action@v5
+        with:
+          source: 'Solution'
+          path: './AdventureWorks.Web.csproj'
+          target: 'ACA'
+          privacyMode: 'Unrestricted'
+          serializer: 'html'
