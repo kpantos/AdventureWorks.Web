@@ -13,6 +13,6 @@ jobs:
         with:
           source: 'Solution'
           path: './AdventureWorks.Web.csproj'
-          target: 'azure-container-apps'
+          target: 'ACA'
           privacyMode: 'Unrestricted'
           serializer: 'html'
