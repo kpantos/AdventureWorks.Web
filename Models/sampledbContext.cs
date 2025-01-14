@@ -42,7 +42,7 @@ namespace AdventureWorks.Web.Models
                 entity.ToTable("Address", "SalesLT");
 
                 entity.HasIndex(e => e.Rowguid)
-                    .HasName("AK_Address_rowguid")
+                    .HasDatabaseName("AK_Address_rowguid")
                     .IsUnique();
 
                 entity.HasIndex(e => e.StateProvince);
@@ -111,7 +111,7 @@ namespace AdventureWorks.Web.Models
                 entity.HasIndex(e => e.EmailAddress);
 
                 entity.HasIndex(e => e.Rowguid)
-                    .HasName("AK_Customer_rowguid")
+                    .HasDatabaseName("AK_Customer_rowguid")
                     .IsUnique();
 
                 entity.Property(e => e.CustomerId).HasColumnName("CustomerID");
@@ -172,7 +172,7 @@ namespace AdventureWorks.Web.Models
                 entity.ToTable("CustomerAddress", "SalesLT");
 
                 entity.HasIndex(e => e.Rowguid)
-                    .HasName("AK_CustomerAddress_rowguid")
+                    .HasDatabaseName("AK_CustomerAddress_rowguid")
                     .IsUnique();
 
                 entity.Property(e => e.CustomerId).HasColumnName("CustomerID");
@@ -223,15 +223,15 @@ namespace AdventureWorks.Web.Models
                 entity.ToTable("Product", "SalesLT");
 
                 entity.HasIndex(e => e.Name)
-                    .HasName("AK_Product_Name")
+                    .HasDatabaseName("AK_Product_Name")
                     .IsUnique();
 
                 entity.HasIndex(e => e.ProductNumber)
-                    .HasName("AK_Product_ProductNumber")
+                    .HasDatabaseName("AK_Product_ProductNumber")
                     .IsUnique();
 
                 entity.HasIndex(e => e.Rowguid)
-                    .HasName("AK_Product_rowguid")
+                    .HasDatabaseName("AK_Product_rowguid")
                     .IsUnique();
 
                 entity.Property(e => e.ProductId).HasColumnName("ProductID");
@@ -289,11 +289,11 @@ namespace AdventureWorks.Web.Models
                 entity.ToTable("ProductCategory", "SalesLT");
 
                 entity.HasIndex(e => e.Name)
-                    .HasName("AK_ProductCategory_Name")
+                    .HasDatabaseName("AK_ProductCategory_Name")
                     .IsUnique();
 
                 entity.HasIndex(e => e.Rowguid)
-                    .HasName("AK_ProductCategory_rowguid")
+                    .HasDatabaseName("AK_ProductCategory_rowguid")
                     .IsUnique();
 
                 entity.Property(e => e.ProductCategoryId).HasColumnName("ProductCategoryID");
@@ -324,7 +324,7 @@ namespace AdventureWorks.Web.Models
                 entity.ToTable("ProductDescription", "SalesLT");
 
                 entity.HasIndex(e => e.Rowguid)
-                    .HasName("AK_ProductDescription_rowguid")
+                    .HasDatabaseName("AK_ProductDescription_rowguid")
                     .IsUnique();
 
                 entity.Property(e => e.ProductDescriptionId).HasColumnName("ProductDescriptionID");
@@ -347,11 +347,11 @@ namespace AdventureWorks.Web.Models
                 entity.ToTable("ProductModel", "SalesLT");
 
                 entity.HasIndex(e => e.Name)
-                    .HasName("AK_ProductModel_Name")
+                    .HasDatabaseName("AK_ProductModel_Name")
                     .IsUnique();
 
                 entity.HasIndex(e => e.Rowguid)
-                    .HasName("AK_ProductModel_rowguid")
+                    .HasDatabaseName("AK_ProductModel_rowguid")
                     .IsUnique();
 
                 entity.Property(e => e.ProductModelId).HasColumnName("ProductModelID");
@@ -379,7 +379,7 @@ namespace AdventureWorks.Web.Models
                 entity.ToTable("ProductModelProductDescription", "SalesLT");
 
                 entity.HasIndex(e => e.Rowguid)
-                    .HasName("AK_ProductModelProductDescription_rowguid")
+                    .HasDatabaseName("AK_ProductModelProductDescription_rowguid")
                     .IsUnique();
 
                 entity.Property(e => e.ProductModelId).HasColumnName("ProductModelID");
@@ -416,7 +416,7 @@ namespace AdventureWorks.Web.Models
                 entity.HasIndex(e => e.ProductId);
 
                 entity.HasIndex(e => e.Rowguid)
-                    .HasName("AK_SalesOrderDetail_rowguid")
+                    .HasDatabaseName("AK_SalesOrderDetail_rowguid")
                     .IsUnique();
 
                 entity.Property(e => e.SalesOrderId).HasColumnName("SalesOrderID");
@@ -462,11 +462,11 @@ namespace AdventureWorks.Web.Models
                 entity.HasIndex(e => e.CustomerId);
 
                 entity.HasIndex(e => e.Rowguid)
-                    .HasName("AK_SalesOrderHeader_rowguid")
+                    .HasDatabaseName("AK_SalesOrderHeader_rowguid")
                     .IsUnique();
 
                 entity.HasIndex(e => e.SalesOrderNumber)
-                    .HasName("AK_SalesOrderHeader_SalesOrderNumber")
+                    .HasDatabaseName("AK_SalesOrderHeader_SalesOrderNumber")
                     .IsUnique();
 
                 entity.Property(e => e.SalesOrderId)
