@@ -12,7 +12,7 @@ jobs:
         uses: kpantos/dotnet-appcat-action@v5
         with:
           source: 'Solution'
-          path: './AdventureWorks.Web.csproj'
+          path: 'AdventureWorks.sln'
           target: 'ACA'
           privacyMode: 'Unrestricted'
           serializer: 'html'
