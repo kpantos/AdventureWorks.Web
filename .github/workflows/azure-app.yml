@@ -37,20 +37,14 @@ jobs:
           tenant-id: ${{ vars.AZURE_TENANT_ID }}
           subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
 
-      - name: Push Container Image
-        uses: azure/cli@v2
-        with:
-          azcliversion: latest
-          inlineScript: |
-            az acr build --registry ${{ env.REGISTRY }} --image ${{ env.IMAGE }} .
-      
-      - name: Deploy to ACA environment
-        uses: azure/CLI@v2
-        with:
-          azcliversion: latest
-          inlineScript: |
-            az deployment group create \
-              --resource-group ${{ env.AZURE_RESOURCE_GROUP }} \
-              --template-file deployApp.bicep \
-              --parameters @deployApp.bicepparam \
-              --parameters image=${{ env.IMAGE }}
+      - name: Build and Push Container Image
+        run: |
+          az acr build --registry ${{ env.REGISTRY }} --image ${{ env.IMAGE }} .
+
+      - name: Deploy to Azure
+        run: |
+          az deployment group create \
+            --resource-group ${{ env.AZURE_RESOURCE_GROUP }} \
+            --template-file deployApp.bicep \
+            --parameters @deployApp.bicepparam \
+            --parameters image=${{ env.IMAGE }}
