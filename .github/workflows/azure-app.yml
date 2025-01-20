@@ -39,6 +39,7 @@ jobs:
 
       - name: Build and Push Container Image
         run: |
+          az acr show -g ${{env.AZURE_RESOURCE_GROUP}} -n ${{ env.REGISTRY }}
           az acr build --registry ${{ env.REGISTRY }} --image ${{ env.IMAGE }} .
 
       - name: Deploy to Azure
