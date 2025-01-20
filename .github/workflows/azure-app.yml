@@ -1,0 +1,54 @@
+# Run when commits are pushed to step-2-hostingenv
+on:
+  workflow_dispatch:
+  push:
+    # Run when commits are pushed to mainline branch (main or master)
+    # Set this to the mainline branch you are using
+    branches:
+      - step-4-hosted-runner
+
+# Set up permissions for deploying with secretless Azure federated credentials
+# https://learn.microsoft.com/en-us/azure/developer/github/connect-from-azure?tabs=azure-portal%2Clinux#set-up-azure-login-with-openid-connect-authentication
+permissions:
+  id-token: write
+  contents: read
+
+
+jobs:
+  build:
+    runs-on: self-hosted
+    env:
+      AZURE_CLIENT_ID: ${{ vars.AZURE_CLIENT_ID }}
+      AZURE_TENANT_ID: ${{ vars.AZURE_TENANT_ID }}
+      AZURE_SUBSCRIPTION_ID: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+      AZURE_ENV_NAME: ${{ vars.AZURE_ENV_NAME }}
+      AZURE_LOCATION: ${{ vars.AZURE_LOCATION }}
+      REGISTRY : 'cradvworksdbqyjprodneu'
+      IMAGE : 'adventureworks-web:v${{ github.run_number }}'
+      AZURE_RESOURCE_GROUP : 'rg-advworks-spoke-prod-neu'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Install az
+        uses: Azure/setup-azd@v2
+      
+      - name: Azure CLI Login
+        uses: azure/login@v2
+        with:
+          client-id: ${{ vars.AZURE_CLIENT_ID }}
+          tenant-id: ${{ vars.AZURE_TENANT_ID }}
+          subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Push Container Image
+        uses: azure/cli@v2
+        with:
+          azcliversion: latest
+          inlineScript: |
+            az account show
+            az acr build --registry "$Env:REGISTRY" --image "$Env:IMAGE" .
+            az deployment group create \
+              --resource-group "$Env:AZURE_RESOURCE_GROUP" \
+              --template-file deployApp.bicep \
+              --parameters @deployApp.bicepparam \
+              --parameters image="$Env:IMAGE"
