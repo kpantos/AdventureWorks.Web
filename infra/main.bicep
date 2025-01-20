@@ -91,7 +91,7 @@ module hostedRunner 'br/public:avm/res/app/job:0.5.2' = {
     containers: [
       {
         name: 'hosted-runner-job'
-        image: 'docker.io/kpantos/github-actions-runner:1.0'
+        image: 'docker.io/kpantos/github-actions-runner:1.5'
         resources: {
           cpu: '2.0'
           memory: '4Gi'
