@@ -42,10 +42,15 @@ jobs:
         with:
           azcliversion: latest
           inlineScript: |
-            az account show
-            az acr build --registry "$Env:REGISTRY" --image "$Env:IMAGE" .
+            az acr build --registry ${{ env.REGISTRY }} --image ${{ env.IMAGE }} .
+      
+      - name: Deploy to ACA environment
+        uses: azure/CLI@v2
+        with:
+          azcliversion: latest
+          inlineScript: |
             az deployment group create \
-              --resource-group "$Env:AZURE_RESOURCE_GROUP" \
+              --resource-group ${{ env.AZURE_RESOURCE_GROUP }} \
               --template-file deployApp.bicep \
               --parameters @deployApp.bicepparam \
-              --parameters image="$Env:IMAGE"
+              --parameters image=${{ env.IMAGE }}
