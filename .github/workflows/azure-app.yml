@@ -39,6 +39,7 @@ jobs:
 
       - name: Build and Push Container Image
         run: |
+          nslookup ${{ env.REGISTRY }}.azurecr.io
           az acr build --registry ${{ env.REGISTRY }} --image ${{ env.IMAGE }} .
 
       - name: Deploy to Azure
