@@ -43,6 +43,7 @@ jobs:
 
       - name: Deploy to Azure
         run: |
+          az acr repository list -g ${{ env.AZURE_RESOURCE_GROUP }} --name ${{ env.REGISTRY }}
           az deployment group create \
             --resource-group ${{ env.AZURE_RESOURCE_GROUP }} \
             --template-file deployApp.bicep \
