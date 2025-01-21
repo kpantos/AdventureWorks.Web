@@ -26,6 +26,9 @@ jobs:
       REGISTRY : 'cradvworksdbqyjprodneu'
       IMAGE : 'cradvworksdbqyjprodneu.azurecr.io/adventureworks-web:v${{ github.run_number }}'
       AZURE_RESOURCE_GROUP : 'rg-advworks-spoke-prod-neu'
+      DB_SERVER_NAME : ${{ vars.DB_SERVER_NAME }}
+      DATABASE_NAME : ${{ vars.DATABASE_NAME }}
+      DB_USERNAME : ${{ vars.DB_USERNAME }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -49,4 +52,4 @@ jobs:
             --resource-group ${{ env.AZURE_RESOURCE_GROUP }} \
             --template-file deployApp.bicep \
             --parameters deployApp.parameters.json \
-            --parameters server='${{ env.REGISTRY }}.azurecr.io' image='${{ env.IMAGE }}'
+            --parameters server='${{ env.REGISTRY }}.azurecr.io' image='${{ env.IMAGE }}' dbServerName='${{ env.DB_SERVER_NAME }}' databaseName='${{ env.DATABASE_NAME }}' dbServerAdminLogin='${{ env.DB_USERNAME }}' dbServerAdminPassword='${{ secrets.DB_PASSWORD }}'
