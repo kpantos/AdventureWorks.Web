@@ -24,7 +24,7 @@ jobs:
       AZURE_ENV_NAME: ${{ vars.AZURE_ENV_NAME }}
       AZURE_LOCATION: ${{ vars.AZURE_LOCATION }}
       REGISTRY : 'cradvworksdbqyjprodneu'
-      IMAGE : 'adventureworks-web:v${{ github.run_number }}'
+      IMAGE : '${{ env.REGISTRY }}.azurecr.io/adventureworks-web:v${{ github.run_number }}'
       AZURE_RESOURCE_GROUP : 'rg-advworks-spoke-prod-neu'
     steps:
       - name: Checkout
@@ -47,4 +47,4 @@ jobs:
             --resource-group ${{ env.AZURE_RESOURCE_GROUP }} \
             --template-file deployApp.bicep \
             --parameters deployApp.parameters.json \
-            --parameters server='${{ env.REGISTRY }}.azurecr.io' image='${{ env.REGISTRY }}.azurecr.io/${{ env.IMAGE }}'
+            --parameters server='${{ env.REGISTRY }}.azurecr.io' image='${{ env.IMAGE }}'
