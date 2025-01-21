@@ -24,7 +24,7 @@ jobs:
       AZURE_ENV_NAME: ${{ vars.AZURE_ENV_NAME }}
       AZURE_LOCATION: ${{ vars.AZURE_LOCATION }}
       REGISTRY : 'cradvworksdbqyjprodneu'
-      IMAGE : '${{ env.REGISTRY }}.azurecr.io/adventureworks-web:v${{ github.run_number }}'
+      IMAGE : 'cradvworksdbqyjprodneu.azurecr.io/adventureworks-web:v${{ github.run_number }}'
       AZURE_RESOURCE_GROUP : 'rg-advworks-spoke-prod-neu'
     steps:
       - name: Checkout
