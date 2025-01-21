@@ -1,0 +1,24 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "location": {
+      "value": "northeurope"
+    },
+    "envName": {
+      "value": "prod"
+    },
+    "name": {
+      "value": "advworks"
+    },
+    "containerAppsEnvironmentResourceId": {
+      "value": "/subscriptions/f38945b8-4230-4b55-8c25-e2304297e2f8/resourceGroups/rg-advworks-spoke-prod-neu/providers/Microsoft.App/managedEnvironments/cae-advworks-prod-neu"
+    },
+    "managedIdentityResourceId": {
+      "value": "/subscriptions/f38945b8-4230-4b55-8c25-e2304297e2f8/resourceGroups/rg-advworks-spoke-prod-neu/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id-cradvworksdbqyjprodneu-AcrPull"
+    },
+    "workloadProfileName": {
+      "value": "general-purpose"
+    }
+  }
+}
