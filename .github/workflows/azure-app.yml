@@ -39,7 +39,7 @@ jobs:
 
       - name: Build and Push Container Image
         run: |
-          az acr build --registry ${{ env.REGISTRY }} --image ${{ env.IMAGE }} .
+          az acr build --registry ${{ env.REGISTRY }} --image ${{ env.IMAGE }} --agent-pool agentpool .
 
       - name: Deploy to Azure
         run: |
