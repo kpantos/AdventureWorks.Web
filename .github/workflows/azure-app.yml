@@ -47,4 +47,4 @@ jobs:
             --resource-group ${{ env.AZURE_RESOURCE_GROUP }} \
             --template-file deployApp.bicep \
             --parameters deployApp.parameters.json \
-            --parameters image='${{ env.REGISTRY }}.azurecr.io/${{ env.IMAGE }}'
+            --parameters server='${{ env.REGISTRY }}.azurecr.io' image='${{ env.REGISTRY }}.azurecr.io/${{ env.IMAGE }}'

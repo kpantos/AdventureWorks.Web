@@ -1,7 +1,8 @@
 targetScope = 'resourceGroup'
 
 param location string = resourceGroup().location
-param image string = 'mcr.microsoft.com/azuredocs/aci-helloworld'
+param image string
+param server string
 param envName string = 'poc'
 param tags object = {
   environment: envName
@@ -12,7 +13,7 @@ param managedIdentityResourceId string
 param workloadProfileName string = 'general-purpose'
 
 
-module sampleApplication 'br/public:avm/res/app/container-app:0.12.0' = {
+module advworksApplication 'br/public:avm/res/app/container-app:0.12.0' = {
   name: 'application-deployment'
   params: {
     name: name
@@ -35,6 +36,12 @@ module sampleApplication 'br/public:avm/res/app/container-app:0.12.0' = {
         }
       }
     ]
+    registries: [
+      {
+        identity: managedIdentityResourceId
+        server: server
+      }
+    ]
     scaleMinReplicas: 2
     scaleMaxReplicas: 10
     activeRevisionsMode: 'Single'
@@ -49,5 +56,5 @@ module sampleApplication 'br/public:avm/res/app/container-app:0.12.0' = {
 // OUTPUTS
 // ------------------
 
-@description('The FQDN of the "Hello World" Container App.')
-output helloWorldAppFqdn string = sampleApplication.outputs.fqdn
+@description('The FQDN of the application deployed.')
+output advworksAppFqdn string = advworksApplication.outputs.fqdn
