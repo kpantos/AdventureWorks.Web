@@ -1,0 +1,195 @@
+{
+	"docker run with DB": {
+		"prefix": "docker-run-db",
+		"description": "",
+		"scope": "plaintext",
+		"body": [
+			"docker run -d -p 8080:8080 --name adventureworks-web -e ConnectionStrings__sampledbContext=\"Server=tcp:kpdbserver.database.windows.net,1433;Initial Catalog=advworks;Persist Security Info=False;User ID=sqladmin;Password={PASSWORD};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;\" adventureworks-web"
+		]
+	},
+	"docker run": {
+		"prefix": "docker-run",
+		"description": "",
+		"scope": "plaintext",
+		"body": [
+			"docker run -d -p 8080:8080 --name adventureworks-web adventureworks-web",
+			""
+		]
+	},
+	"docker build": {
+		"prefix": "docker-build",
+		"description": "",
+		"scope": "plaintext",
+		"body": [
+			"docker build -t adventureworks-web ."
+		]
+	},
+	"dockerfile": {
+		"prefix": "dockerfile",
+		"description": "dockerfile",
+		"scope": "dockerfile",
+		"body": [
+			"# Stage 1: Build",
+			"FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build",
+			"WORKDIR /source",
+			"",
+			"# Copy the project files and restore dependencies",
+			"COPY *.sln .",
+			"COPY AdventureWorks.Web.csproj .",
+			"RUN dotnet restore AdventureWorks.Web.csproj",
+			"",
+			"# Copy the rest of the source code and build the application",
+			"COPY . .",
+			"RUN dotnet publish AdventureWorks.Web.csproj -c Release -o /app",
+			"",
+			"# Stage 2: Runtime",
+			"FROM mcr.microsoft.com/dotnet/aspnet:9.0-alpine AS runtime",
+			"WORKDIR /app",
+			"",
+			"# Install required packages",
+			"RUN apk add --no-cache \\\\",
+			"    icu-libs \\\\",
+			"    tiff \\\\",
+			"    libgdiplus \\\\",
+			"    libc-dev \\\\",
+			"    tzdata",
+			"",
+			"# Set the globalization invariant mode to false",
+			"ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false",
+			"",
+			"# Set the ASPNETCORE_URLS environment variable",
+			"ENV ASPNETCORE_URLS=http://+:8080",
+			"",
+			"# Copy the built application from the build stage",
+			"COPY --from=build /app .",
+			"",
+			"# Expose port 8080",
+			"EXPOSE 8080",
+			"",
+			"# Run the application",
+			"ENTRYPOINT [\"dotnet\", \"AdventureWorks.Web.dll\"]"
+		]
+	},
+	"copilot prompt": {
+		"prefix": "prompt",
+		"description": "",
+		"scope": "plaintext",
+		"body": [
+			"@workspace create a dockerfile for building and running the application. Use the AdventureWorks.Web.csproj file. Use different stages for the build and runtime. Use an alpine base image for the runtime. Install the icu-libs",
+			"tiff, libgdiplus, libc-dev, tzdata packages. Set the globalization invariant mode to false. Add the ASPNETCORE_URLS env variable for port 8080 and expose that port from the container."
+		]
+	},
+	"appcat": {
+		"prefix": "appcat",
+		"description": "appcat",
+		"scope": "github-actions-workflow",
+		"body": [
+			"on:",
+			"  workflow_dispatch:",
+			"  push:",
+			"  ",
+			"jobs:",
+			"  test_appcat_action:",
+			"    runs-on: windows-latest",
+			"    name: A job to test the appcat action",
+			"    steps:",
+			"      - uses: actions/checkout@v4",
+			"      - id: foo",
+			"        uses: kpantos/dotnet-appcat-action@v5",
+			"        with:",
+			"          source: 'Solution'",
+			"          path: 'AdventureWorks.sln'",
+			"          target: 'ACA'",
+			"          privacyMode: 'Unrestricted'",
+			"          serializer: 'html'"
+		]
+	},
+	"add solution file": {
+		"prefix": "sln",
+		"description": "",
+		"scope": "plaintext",
+		"body": [
+			"dotnet new sln -n AdventureWorks",
+			"dotnet sln AdventureWorks.sln add AdventureWorks.Web.csproj"
+		]
+	},
+	"csproj File Changes": {
+		"prefix": "item-group",
+		"description": "",
+		"scope": "xml",
+		"body": [
+			"  <ItemGroup>",
+			"    <PackageReference Include=\"Microsoft.EntityFrameworkCore.SqlServer\" Version=\"9.0.0\" />",
+			"    <PackageReference Include=\"Microsoft.VisualStudio.Web.CodeGeneration.Design\" Version=\"9.0.0\" />",
+			"  </ItemGroup>"
+		]
+	},
+	"upgrade assistant": {
+		"prefix": "upgrade-assistant",
+		"description": "",
+		"scope": "plaintext",
+		"body": [
+			"upgrade-assistant upgrade"
+		]
+	},
+	"devcontainer": {
+		"prefix": "devcontainer",
+		"description": "devcontainer",
+		"scope": "jsonc",
+		"body": [
+			"{",
+			"  \"image\": \"mcr.microsoft.com/devcontainers/base:noble\",",
+			"  \"features\": {",
+			"    \"ghcr.io/devcontainers/features/powershell:1\": {",
+			"      \"modules\": [\"Az.Accounts\", \"Az.Resources\", \"Az.KeyVault\"]",
+			"    },",
+			"    \"ghcr.io/devcontainers/features/docker-in-docker:2\": {},",
+			"    \"ghcr.io/devcontainers/features/azure-cli:1\": {",
+			"      \"version\": \"latest\",",
+			"      \"installBicep\": true",
+			"    },",
+			"    \"ghcr.io/azure/azure-dev/azd:0\": {},",
+			"    \"ghcr.io/devcontainers/features/github-cli:1\": {},",
+			"    \"ghcr.io/devcontainers/features/dotnet:2\": {}",
+			"  },",
+			"  \"customizations\": {",
+			"    \"vscode\": {",
+			"      \"extensions\": [",
+			"        \"cschleiden.vscode-github-actions\",",
+			"        \"esbenp.prettier-vscode\",",
+			"        \"GitHub.copilot\",",
+			"        \"github.vscode-pull-request-github\",",
+			"        \"microsoft-dciborow.align-bicep\",",
+			"        \"ms-azuretools.vscode-bicep\",",
+			"        \"ms-vsliveshare.vsliveshare\",",
+			"        \"ms-azuretools.vscode-azureresourcegroups\",",
+			"        \"ms-vscode-remote.remote-containers\",",
+			"        \"zokugun.explicit-folding\",",
+			"        \"GitHub.copilot-labs\",",
+			"        \"zjffun.snippetsmanage\"",
+			"      ]",
+			"    }",
+			"  },",
+			"  \"postCreateCommand\": \"dotnet tool install -g upgrade-assistant\",",
+			"  \"postStartCommand\": \"\"",
+			"}",
+			""
+		]
+	}
+	// Place your AdventureWorks.Web workspace snippets here. Each snippet is defined under a snippet name and has a scope, prefix, body and 
+	// description. Add comma separated ids of the languages where the snippet is applicable in the scope field. If scope 
+	// is left empty or omitted, the snippet gets applied to all languages. The prefix is what is 
+	// used to trigger the snippet and the body will be expanded and inserted. Possible variables are: 
+	// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. 
+	// Placeholders with the same ids are connected.
+	// Example:
+	// "Print to console": {
+	// 	"scope": "javascript,typescript",
+	// 	"prefix": "log",
+	// 	"body": [
+	// 		"console.log('$1');",
+	// 		"$2"
+	// 	],
+	// 	"description": "Log output to console"
+	// }
+}
