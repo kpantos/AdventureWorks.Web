@@ -6,7 +6,9 @@ param password string
 @secure()
 param githubpat string
 
-module hostingEnvironment 'br/public:avm/ptn/aca-lza/hosting-environment:0.2.0' = {
+param applicationFQDN string
+
+module hostingEnvironment 'br/public:avm/ptn/aca-lza/hosting-environment:0.5.0' = {
   name: 'hostingEnvironmentDeployment'
   params: {
     // Required parameters
@@ -36,6 +38,7 @@ module hostingEnvironment 'br/public:avm/ptn/aca-lza/hosting-environment:0.2.0' 
     vmAuthenticationType: 'sshPublicKey'
     vmJumpboxOSType: 'linux'
     workloadName: 'advworks'
+    applicationGatewayBackendFqdn: applicationFQDN
   }
 }
 
